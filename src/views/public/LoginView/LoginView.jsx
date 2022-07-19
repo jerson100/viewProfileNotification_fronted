@@ -15,7 +15,9 @@ const LoginView = () => {
       try {
         await loginUs(username, password);
       } catch (e) {
-        setMessageError(e);
+        setMessageError(
+          typeof e === "string" ? e : "El servidor no se encuentra activo"
+        );
       }
     }
   };
