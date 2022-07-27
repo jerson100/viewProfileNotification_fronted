@@ -14,19 +14,21 @@ const PrivatePageLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (socket) {
-      socket.on("connect", () => {
-        socket.emit("login", {
-          user: user,
-          room: socket.id,
-        });
+    socket?.on("connect", () => {
+      socket?.emit("login", {
+        user: user,
+        room: socket.id,
       });
-    }
+    });
+    return () => {
+      socket?.emit("disconnectedUser");
+    };
   }, [socket]);
 
   if (!user) {
     return <Navigate to="/login" />;
   }
+
   return <div>{<Outlet context={{ socket: socket }} />}</div>;
 };
 
